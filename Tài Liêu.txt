@@ -14,3 +14,7 @@ Các Library dự kiến sẽ có ở trong đồ án:
   + Socket của python
   + Tkinter để thực hiện GUI
   + Thread để thực hiện đa luồng
+
+
+Scrum:
+Chia 1 project ra thành nhiều sprint 
