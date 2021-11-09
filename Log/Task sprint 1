@@ -1,0 +1,9 @@
+Về phía GUI : ( rất là ưu tiên sử dụng Tkinter vì t thấy pygame đẹp hơn nhưng mà rất cực)
+  + Một file menu.py riêng, nhiệm vụ rằng có hai nút Server, clients
+  + Khi click vô nút server thì chạy script của server lên, tương tự với clients
+  + Có thông báo rằng nếu chưa chạy servers mà chạy client thì sẽ bị lỗi !
+  + Chưa cần đẹp nhất, có hàng xài được là ok
+
+Vế phía client - server:
+  + Giải quyết vấn đề nếu kết nối lỗi thì sẽ như thế nào
+  + Thiết kế chức năng đăng nhập, đăng ký, nghiên cứu về file .json
