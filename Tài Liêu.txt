@@ -1,0 +1,15 @@
+https://www.youtube.com/watch?v=3QiPPX-KeSc Server/Client tech with tim
+Tham khảo thêm bài giảng của cô
+
+
+Team comp: Quang Minh, Châu Kiệt, Hoàng Cương
+
+
+Ngôn ngữ dự kiến: Python 3.10, Một vài ngôn ngữ SQL (bởi vì để ý thấy có việc tách data từ một file .html hay là .json)
+Trình quản lý dự án: Github (tự học nha mấy ba), host chính project sẽ là MQL
+Nếu được hãy cố gắng thực hiện dự án theo Agile/Scrum thay vì Waterfall
+
+Các Library dự kiến sẽ có ở trong đồ án:
+  + Socket của python
+  + Tkinter để thực hiện GUI
+  + Thread để thực hiện đa luồng
