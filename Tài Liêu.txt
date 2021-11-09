@@ -2,7 +2,8 @@ https://www.youtube.com/watch?v=3QiPPX-KeSc Server/Client tech with tim
 Tham khảo thêm bài giảng của cô
 
 
-Team comp: Quang Minh, Châu Kiệt, Hoàng Cương
+Team comp: Quang Minh, Châu Kiệt, Hoàn Cương
+
 
 
 Ngôn ngữ dự kiến: Python 3.10, Một vài ngôn ngữ SQL (bởi vì để ý thấy có việc tách data từ một file .html hay là .json)
