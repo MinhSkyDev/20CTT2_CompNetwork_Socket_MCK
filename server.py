@@ -17,7 +17,7 @@ def handleInvidualThread(connection, address):
         ## Số byte trong thông tin đó
         ## Thông tin đó
         ## Vì thế ta cần xác định được số byte được gửi đi trước
-        messageSize = connection.recv(64).decode("utf-8")
+        messageSize = connection.recv(1024).decode("utf-8")
         if messageSize != '': ## Khi mà không nhận được message gì
             messageSize = int(messageSize)
             message = connection.recv(messageSize).decode("utf-8")

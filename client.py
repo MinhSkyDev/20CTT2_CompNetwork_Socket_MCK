@@ -12,3 +12,20 @@ print(addr)
 ## khởi  tạo object socket ở phía Client
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect(addr)
+
+
+def sendAMessage(message):
+    ## Ta sẽ đi theo cấu trúc gửi tin bên client
+    message = message.encode('utf-8')
+    messageSize = len(message)
+    messageSize_send = str(messageSize).encode('utf8')
+    messageSize_send += b' ' * (1024 - len(messageSize_send))
+    client.send(messageSize_send)
+    client.send(message)
+
+
+##message = ""
+##while message != ""
+
+sendAMessage("Hello, world!")
+input()
