@@ -1,7 +1,7 @@
 Về phía GUI : ( rất là ưu tiên sử dụng Tkinter vì t thấy pygame đẹp hơn nhưng mà rất cực)
-  + Một file menu.py riêng, nhiệm vụ rằng có hai nút Server, clients
-  + Khi click vô nút server thì chạy script của server lên, tương tự với clients
-  + Có thông báo rằng nếu chưa chạy servers mà chạy client thì sẽ bị lỗi !
+  + Một file menu.py riêng, nhiệm vụ rằng có hai nút Server, clients (Hoàn Cương)
+  + Khi click vô nút server thì chạy script của server lên, tương tự với clients (Hoàn Cương)
+  + Có thông báo rằng nếu chưa chạy servers mà chạy client thì sẽ bị lỗi ! (Hoàn Cương)
   + Chưa cần đẹp nhất, có hàng xài được là ok
 
 Vế phía client - server:
