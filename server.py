@@ -38,9 +38,10 @@ def handleInvidualThread(connection, address):
             messageSize = int(messageSize)
             message = connection.recv(messageSize).decode("utf-8")
             print("Máy ", indexConnection ," muốn nói rằng: ",message)
-            if message == "!DISCONNECT":
+            if message == "DISCONNECT":
                 break
     connection.close()
+    print("Bye bye !")
 
 def init():
     server.listen()
