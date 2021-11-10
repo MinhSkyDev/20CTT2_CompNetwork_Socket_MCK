@@ -5,5 +5,8 @@ Về phía GUI : ( rất là ưu tiên sử dụng Tkinter vì t thấy pygame �
   + Chưa cần đẹp nhất, có hàng xài được là ok
 
 Vế phía client - server:
-  + Giải quyết vấn đề nếu kết nối lỗi thì sẽ như thế nào
+  + Giải quyết vấn đề nếu kết nối lỗi thì sẽ như thế nào ở phía client ( đã giải quyết - Quang Minh)
+  + Quản lý kết nối đa tiểu trình ( multi - threading ) (đã giải quyết - Quang Minh)
+  + Giải quyết exit client ( đã giải quyết)
+  + Giải quyết exit server 
   + Thiết kế chức năng đăng nhập, đăng ký, nghiên cứu về file .json
