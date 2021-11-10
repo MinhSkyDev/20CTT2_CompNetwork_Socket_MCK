@@ -12,7 +12,7 @@ def sendAMessage(message):
 
 
 sizeOfLong = 64
-portGate = 5052 ## Port không được nằm trong khoảng 0<= PORT <= 1024 vì đây là cổng cho các giao thức có sẵn trên máy
+portGate = 5051 ## Port không được nằm trong khoảng 0<= PORT <= 1024 vì đây là cổng cho các giao thức có sẵn trên máy
 localIP = socket.gethostbyname(socket.gethostname())
 addr = (localIP,portGate)
 print(addr)
