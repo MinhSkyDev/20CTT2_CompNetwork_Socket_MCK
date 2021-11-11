@@ -15,6 +15,10 @@ def serverStart():
 	print(out)
 	return
 
+def serverCommand():
+	server = threading.Thread(target = serverStart)
+	server.start()
+
 # Initialize the client
 def clientStart():
 	cmd = 'python client.py'
@@ -24,19 +28,23 @@ def clientStart():
 	print(out)
 	return
 
+def clientCommand():
+	client = threading.Thread(target = clientStart)
+	client.start()
+
 # Open the registration window
 def registrationWindow():
 	registration = Toplevel()
 	registration.title('Registration Window')
 	return
-	
+
 
 # Creating label widgets
 label = Label(root, text = "DO AN MMT - 20CTT2", padx = 50, pady = 50)
 
 # Creating button widgets
-serverButton = Button(root, text = "SERVER", padx = 100, pady = 50, command = serverStart)
-clientButton = Button(root, text = "CLIENT", padx = 100, pady = 50, command = clientStart)
+serverButton = Button(root, text = "SERVER", padx = 100, pady = 50, command = serverCommand)
+clientButton = Button(root, text = "CLIENT", padx = 100, pady = 50, command = clientCommand)
 registerButton = Button(root, text = "REGISTER", padx = 95, pady = 50, command = registrationWindow)
 
 # Placing GUI comps on the root window
