@@ -1,0 +1,8 @@
+
+Thiết kế và chuyển các tác vụ từ console qua Tkinter giao diện đồ họa cho Server: Minh
+
+Thiết kế và viết bộ hàm database: Cương
+  ***Nên thiết kế hàm kiểu trả về rõ ràng, giống kiểu như kiểm tra mật khẩu có nằm trong database hay không thì
+      isInDatabase(username,password) => true hoặc false
+
+Thiết kế và chuyển các tác vụ từ console qua Tkinter giao diện đồ họa cho Client: Kiệt

@@ -17,7 +17,6 @@ def getIndexConnections(connection,address):
         if connectionArray[i] == (connection,address):
             return i
 
-
 def deleteIndexConnections(connection,address):
     for i in range(0,len(connectionArray)):
         if connectionArray[i] == (connection,address):
@@ -30,7 +29,7 @@ connectionArray = [] ## Socket object
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) ## lệnh cơ bản trong socket python
 server.bind((localIP,portGate))
 
-def handleInvidualThread(connection, address):
+def handleInvidualThread(connection, address): ## Hàm để xử lý từng luồng khác nhau của các client, nói chung việc gửi nhận dữ liệu sẽ thực hiện ở đây
     indexConnection = getIndexConnections(connection,address) + 1
     print("Kết nối ", indexConnection ," đã được liên kết")
     while True:
@@ -49,7 +48,7 @@ def handleInvidualThread(connection, address):
     connection.close()
     print("Bye bye !")
 
-
+logRecords_string = ""
 
 def setExitTrue():
     for connection in  connectionArray:
@@ -68,13 +67,15 @@ def init():
             ## thì sẽ là một biến mang kiểu đối tượng Socket
             thread = threading.Thread(target=handleInvidualThread, args=(connection,address)) ## Chia từng connection thành từng luồng khác nhau
             thread.start()
-            print("SỐ CLIENT ĐANG HOẠT ĐỘNG: ",threading.active_count() -2)
+            global logRecords_string ## chỗ này phải gọi biến global này ra để có thể cập nhật được log
+            logRecords_string += "\n Máy " + str(getIndexConnections(connection,address) +1) +" đã đăng nhập"
+            log_records.config(text = logRecords_string)
     except setEXit == True:
             server.close()
             tk.destroy()
 
 
-def initCommand():
+def initThreading():
     startServer = threading.Thread(target=init)
     startServer.start()
 
@@ -86,6 +87,13 @@ def hideLoginFrames(): ##Xóa các widgets Tkinter của phần login
     loginButton.pack_forget()
     Server_text.pack_forget()
 
+def usersAction():
+    Active_users_text = Label(tk,text = "Active Users")
+    global log_records
+    log_records = Label(tk,text =logRecords_string, padx = 100, pady = 50) ## Đây là object để hiện lên các dòng lịch sử đăng nhập các kiểu của các clients
+    Active_users_text.pack()
+    log_records.pack()
+    initThreading()
 
 
 def validateLogin(username,password):
@@ -93,15 +101,16 @@ def validateLogin(username,password):
     password_get = password.get()
     if username_get == "admin" and password_get == "123456": ## Ở đây sẽ là check liệu pass + username có nằm trong DB không
         hideLoginFrames()
+        usersAction()
 
 
 ## MAIN starts here ##
 tk = Tk()
 tk.geometry("400x500")
 Server_text = Label(tk,text = "Đăng nhập vào server")
-exitButton = Button(tk,text = "exit", padx = 100, pady = 50, command = setExitTrue)
-initButton = Button(tk,text = "init", padx = 100, pady = 50, command = initCommand)
-testButton = Button(tk,text = "forget",padx = 100, pady = 50, command = hideAllFrames)
+##exitButton = Button(tk,text = "exit", padx = 100, pady = 50, command = setExitTrue)
+##initButton = Button(tk,text = "init", padx = 100, pady = 50, command = initCommand)
+##testButton = Button(tk,text = "forget",padx = 100, pady = 50, command = hideAllFrames)
 Server_text.pack()
 ##exitButton.pack()
 ##initButton.pack()
@@ -118,7 +127,7 @@ password = StringVar()
 passwordEntry = Entry(tk, textvariable=password, show='*')
 
 ##login button
-validateLogin = partial(validateLogin,username,password)
+validateLogin = partial(validateLogin,username,password) ## Trả về một object đã được nén lại từ một function với các parameters tương ứng
 loginButton = Button(tk,text="Login", padx = 50, pady = 50, command =validateLogin)
 ##Packlogin form
 usernameLabel.pack()
