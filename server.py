@@ -3,6 +3,7 @@ import threading
 from tkinter import *
 from functools import partial
 import sys
+from GetApi import getAPI
 
 ## Prepare the data
 sizeOfLong = 64
@@ -36,10 +37,23 @@ def deleteIndexConnections(connection,address):
             break
 
 
+def receiveUsernameAndPassword(connection,address):
+    usernameSize = connection.recv(1024).decode("utf-8")
+    username = ""
+    if usernameSize != '':
+        usernameSize = int(usernameSize)
+        username = connection.recv(usernameSize).decode("utf-8")
+    passwordSize = connection.recv(1024).decode("utf-8")
+    password = ""
+    if passwordSize != '':
+        passwordSize = int(passwordSize)
+        password = connection.recv(passwordSize).decode("utf-8")
+    user = (username,password)
+    return user
+
 
 def handleInvidualThread(connection, address): ## Hàm để xử lý từng luồng khác nhau của các client, nói chung việc gửi nhận dữ liệu sẽ thực hiện ở đây
     indexConnection = getIndexConnections(connection,address) + 1
-    print("Kết nối ", indexConnection ," đã được liên kết")
     while True:
         ## Một pakage gửi đi từ client sẽ mang hai thông tin:
         ## Số byte trong thông tin đó
@@ -49,12 +63,19 @@ def handleInvidualThread(connection, address): ## Hàm để xử lý từng lu�
         if messageSize != '': ## Khi mà không nhận được message gì
             messageSize = int(messageSize)
             message = connection.recv(messageSize).decode("utf-8")
-            print("Máy ", indexConnection ," muốn nói rằng: ",message)
-            if message == "DISCONNECT":
-                break
+            if message == "LOGIN_REQUEST":
+                user = receiveUsernameAndPassword(connection,address)
+                print(user)
+
+
+
+
+
     deleteIndexConnections(connection,address) ## Làm xong thì xóa phần tử trong mảng này đi
     connection.close()
     print("Bye bye !")
+
+
 
 
 def ExitServer():
@@ -75,7 +96,7 @@ def init():
             thread = threading.Thread(target=handleInvidualThread, args=(connection,address)) ## Chia từng connection thành từng luồng khác nhau
             thread.start()
             global logRecords_string ## chỗ này phải gọi biến global này ra để có thể cập nhật được log
-            logRecords_string += "\n Máy " + str(getIndexConnections(connection,address) +1) +" đã đăng nhập"
+            logRecords_string += "\n Máy " + str(getIndexConnections(connection,address) +1) +" đã kết nối"
             log_records.config(text = logRecords_string)
     except:
             return

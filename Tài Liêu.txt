@@ -17,4 +17,7 @@ Các Library dự kiến sẽ có ở trong đồ án:
 
 
 Scrum:
-Chia 1 project ra thành nhiều sprint 
+Chia 1 project ra thành nhiều sprint
+
+
+192.168.1.28

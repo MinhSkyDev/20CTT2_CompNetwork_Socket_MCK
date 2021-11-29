@@ -12,5 +12,5 @@ def getAPI():
         }
 
     urlGetAPI = requests.get(
-    "https://vapi.vnappmob.com/api/v2/exchange_rate/sbv",headers = header)
+    "https://vapi.vnappmob.com/api/v2/exchange_rate/vcb",headers = header)
     return urlGetAPI.json()
