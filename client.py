@@ -27,6 +27,7 @@ def doThings():
     input()
 
 
+
 ## khởi  tạo object socket ở phía Client
 try:
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
