@@ -1,122 +1,118 @@
 ﻿import sqlite3
-from tkinter import *
-from tkinter import messagebox
 
-def checkUserExist(usernameResult, passwordResult, checkResult):
+# Function to check signup duplicates (CLIENT accounts) 
+def existClient(usernameResult):
 	# Create or connect to a database
 	conn = sqlite3.connect('loginInfo.db')
 
 	# Create a cursor
 	c = conn.cursor()
+
+	# Create checkResult for clients' accounts
+	checkResult = TRUE
 
 	# Fetch all elements from the database and put them in a list
 	c.execute("SELECT * FROM accountTable")
 	items = c.fetchall()
 	
-	# If the list is empty, commit the changes
+	# If the list is empty, return as false
 	if not items:
+		con.close()
 		return FALSE
 	# If the list is not empty, check for duplicated usernames and account type (SERVER & CLIENT)
 	else:
 		for item in items:
 			if item[0] == usernameResult and item[2] == checkResult:
-				messagebox.showerror(title = "LỖI", message = "Tài khoản đã tồn tại.")
+				conn.close()
 				return TRUE
 			else:
+				conn.close()
 				return FALSE
 
-def submitClient():
+# Function to check signup duplicates (SERVER accounts)
+def existServer(usernameResult):
 	# Create or connect to a database
 	conn = sqlite3.connect('loginInfo.db')
 
 	# Create a cursor
 	c = conn.cursor()
 
-	# Declare the variables that are gonna get inserted
-	usernameResult = username.get()
-	passwordResult = password.get()
-	checkResult = TRUE
-
-	# Check if the table exists. If it doesn't create one
-	c.execute('''SELECT count(name) FROM sqlite_master WHERE type = 'table' AND name = 'accountTable' ''')
-	if c.fetchone()[0]== 0: {
-		c.execute("""CREATE TABLE accountTable(
-		username text,
-		password text,
-		clientCheck boolean
-		)""")
-	}
-
-	# If the user doesn't exist in the database, commit the changes
-	if checkUserExist(usernameResult, passwordResult, checkResult) == FALSE:
-		c.execute("INSERT INTO accountTable VALUES(:username, :password, :clientCheck)",
-		{
-			  'username': usernameResult,
-			  'password': passwordResult,
-			  'clientCheck': checkResult
-			  })
-		conn.commit()
-	
-	# Clear the entries
-	username.delete(0, END)
-	password.delete(0, END)
-
-	# Close the connection
-	conn.close()
-
-def submitServer():
-	# Create or connect to a database
-	conn = sqlite3.connect('loginInfo.db')
-
-	# Create a cursor
-	c = conn.cursor()
-
-	# Declare the variables that are gonna get inserted
-	usernameResult = username.get()
-	passwordResult = password.get()
+	# Create checkResult for servers' accounts
 	checkResult = FALSE
 
-	# Check if the table exists. If it doesn't create one
-	c.execute('''SELECT count(name) FROM sqlite_master WHERE type = 'table' AND name = 'accountTable' ''')
-	if c.fetchone()[0]== 0: {
-		c.execute("""CREATE TABLE accountTable(
-		username text,
-		password text,
-		clientCheck boolean
-		)""")
-	}
-
-	# If the user doesn't exist in the database, commit the changes
-	if checkUserExist(usernameResult, passwordResult, checkResult) == FALSE:
-		c.execute("INSERT INTO accountTable VALUES(:username, :password, :clientCheck)",
-		{
-			  'username': usernameResult,
-			  'password': passwordResult,
-			  'clientCheck': checkResult
-			  })
-		conn.commit()
+	# Fetch all elements from the database and put them in a list
+	c.execute("SELECT * FROM accountTable")
+	items = c.fetchall()
 	
-	# Clear the entries
-	username.delete(0, END)
-	password.delete(0, END)
+	# If the list is empty, return as false
+	if not items:
+		conn.close()
+		return FALSE
+	# If the list is not empty, check for duplicated usernames and account type (SERVER & CLIENT)
+	else:
+		for item in items:
+			if item[0] == usernameResult and item[2] == checkResult:
+				conn.close()
+				return TRUE
+			else:
+				conn.close()
+				return FALSE
 
-	# Close the connection
-	conn.close()
+# Function to check login validity (CLIENT accounts)
+def isValidClient(usernameResult, passwordResult):
+	# Create or connect to a database
+	conn = sqlite3.connect('loginInfo.db')
 
-def registrationHandle():
-	registration = Toplevel()
-	registration.title('Đăng ký tài khoản')
-	username = Entry(registration, width = 30)
-	username.grid(row = 0 , column = 1, padx = 20)
-	usernameResult = username.get()
-	password = Entry(registration, width = 30)
-	password.grid(row = 1, column = 1, padx = 20)
-	passwordResult = password.get()
-	username_label = Label(registration, text = "Username")
-	username_label.grid(row = 0, column = 0)
+	# Create a cursor
+	c = conn.cursor()
 
-	password_label = Label(registration, text = "Password")
-	password_label.grid(row = 1 , column = 0)
+	# Create checkResult for clients' accounts
+	checkResult = TRUE
 
-	submitClient_button = Button(registration, text = "ĐĂNG KÝ", command = submitClient)
-	submitClient_button.grid(row = 3, column = 0, rowspan = 2, columnspan = 2, pady = 10, padx = 10, ipadx = 100)
+	# Fetch all elements from the database and put them in a list
+	c.execute("SELECT * FROM accountTable")
+	items = c.fetchall()
+	
+	# If the list is empty, return as false
+	if not items:
+		conn.close()
+		return FALSE
+	# If the list is not empty, check for validity (username, password, and account type)
+	else:
+		for item in items:
+			if item[0] == usernameResult and item[1] == passwordResult and item[2] == checkResult:
+				conn.close()
+				return TRUE
+			else:
+				conn.close()
+				return FALSE
+
+# Function to check login validity (SERVER accounts)
+def isValidServer(usernameResult, passwordResult):
+	# Create or connect to a database
+	conn = sqlite3.connect('loginInfo.db')
+
+	# Create a cursor
+	c = conn.cursor()
+
+	# Create checkResult for servers' accounts
+	checkResult = FALSE
+
+	# Fetch all elements from the database and put them in a list
+	c.execute("SELECT * FROM accountTable")
+	items = c.fetchall()
+
+	# If the list is empty, return as false
+	if not items:
+		conn.close()
+		return FALSE
+	# If the list is empty, check for validity (username, password, and account type)
+	else:
+		for item in items:
+			if item[0] == usernameResult and item[1] == passwordResult and item[2] == checkResult:
+				conn.close()
+				return TRUE
+			else:
+				conn.close()
+				return FALSE
+
