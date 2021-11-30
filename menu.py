@@ -3,12 +3,12 @@ import socket
 import threading
 import sqlite3
 import DB
+from registration import registrationHandle
 from tkinter import *
 
-from DB import registrationHandle
 
 root = Tk()
-root.title('Cửa sổ chính')
+root.title('Cửa số chính')
 root.geometry("800x450")
 root.resizable(FALSE, FALSE)
 
@@ -43,8 +43,6 @@ def clientCommand():
 def registrationWindow():
 	registrationHandle()
 	return
-
-
 
 
 # Creating label widgets
