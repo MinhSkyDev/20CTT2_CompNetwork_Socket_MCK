@@ -2,6 +2,7 @@ import socket
 import threading
 from tkinter import *
 from functools import partial
+import json
 
 def sendAMessage(message):
     global client
