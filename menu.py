@@ -1,10 +1,16 @@
-import subprocess
+﻿import subprocess
 import socket
 import threading
+import sqlite3
+import DB
 from tkinter import *
 
+from DB import registrationHandle
+
 root = Tk()
-root.title('Main Window')
+root.title('Cửa sổ chính')
+root.geometry("800x450")
+root.resizable(FALSE, FALSE)
 
 # Initialize the server
 def serverStart():
@@ -32,25 +38,26 @@ def clientCommand():
 	client = threading.Thread(target = clientStart)
 	client.start()
 
+
 # Open the registration window
 def registrationWindow():
-	registration = Toplevel()
-	registration.title('Registration Window')
+	registrationHandle()
 	return
 
 
+
+
 # Creating label widgets
-label = Label(root, text = "DO AN MMT - 20CTT2", padx = 50, pady = 50)
+label = Label(root, text = "ĐỒ ÁN MMT - 20CTT2", padx = 50, pady = 50, font=("Verdana", 25))
 
 # Creating button widgets
-serverButton = Button(root, text = "SERVER", padx = 100, pady = 50, command = serverCommand)
-clientButton = Button(root, text = "CLIENT", padx = 100, pady = 50, command = clientCommand)
-registerButton = Button(root, text = "REGISTER", padx = 95, pady = 50, command = registrationWindow)
+serverButton = Button(root, text = "ĐĂNG NHẬP SERVER", padx = 50, pady = 50, command = serverCommand, font=("Verdana", 15))
+clientButton = Button(root, text = "ĐĂNG NHẬP CLIENT", padx = 50, pady = 50, command = clientCommand, font=("Verdana", 15))
+registerButton = Button(root, text = "ĐĂNG KÝ", padx = 200, pady = 50, command = registrationWindow, font=("Verdana", 15))
 
 # Placing GUI comps on the root window
-label.pack()
-serverButton.pack()
-clientButton.pack()
-registerButton.pack()
-
+label.place(relx = 0.5, rely = 0.1, anchor = "center")
+serverButton.place(relx = 0.25, rely = 0.4, anchor = "center")
+clientButton.place(relx = 0.75, rely = 0.4, anchor = "center")
+registerButton.place(relx = 0.5, rely = 0.8, anchor = "center")
 root.mainloop()
