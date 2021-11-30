@@ -1,6 +1,7 @@
 import socket
 import threading
 from tkinter import *
+from tkinter import ttk
 from functools import partial
 import json
 
@@ -39,8 +40,29 @@ def receiveMessage(connection):
 def getData():
     sendAMessage("DATA_REQUEST")
     data = receiveMessage(client) ## Lấy dữ liệu ở dạng chuỗi
-    data_json = json.loads(data) ## ta chuyển chuỗi sang json
-    print(data)
+    data_json = json.loads(data) ## ta chuyển chuỗi sang object json
+    result = data_json['results']
+    countResult = 1
+    ##Tkinter Treeview
+    myTree = ttk.Treeview(tk)
+    myTree['columns'] = ("Buy Cash","Buy Transfer","Currency","Sell")
+    myTree.column("#0", width = 120, minwidth = 30)
+    myTree.column("Buy Cash", anchor = CENTER, width = 120)
+    myTree.column("Buy Transfer", anchor = CENTER, width = 120)
+    myTree.column("Currency", anchor = CENTER, width = 120)
+    myTree.column("Sell", anchor = CENTER, width = 120)
+
+    ##Create Headings
+    myTree.heading("#0", text = "Index", anchor = CENTER)
+    myTree.heading("Buy Cash", text = "Buy Cash", anchor = CENTER)
+    myTree.heading("Buy Transfer", text = "Buy Transfer", anchor = CENTER)
+    myTree.heading("Currency", text = "Currency", anchor = CENTER)
+    myTree.heading("Sell", text = "Sell", anchor = CENTER)
+    for i in result:
+        myTree.insert(parent = '', index = 'end', iid=None, text = str(countResult), values = (i['buy_cash'],i['buy_transfer'],i['currency'],i['sell']))
+        countResult += 1
+
+    myTree.pack(pady = 20)
 
 def userGUI():
     userGUI_welcome_label = Label(tk,text = "CHÀO MỪNG")
@@ -155,7 +177,7 @@ def verifyIP(inputIP):
 check = localIP = socket.gethostbyname(socket.gethostname())
 print(check)
 tk = Tk()
-tk.geometry("400x500")
+tk.geometry("705x480")
 Client_text_label = Label(tk,text = "Nhập IP của server: ")
 inputIP = StringVar()
 inputIP_entry = Entry(tk, textvariable = inputIP)

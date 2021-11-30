@@ -5,6 +5,7 @@ from functools import partial
 import sys
 import requests
 from GetApi import getAPI
+from DB import isValidServer,isValidClient
 
 
 ## Prepare the data
@@ -81,7 +82,7 @@ def handleInvidualThread(connection, address): ## Hàm để xử lý từng lu�
             message = connection.recv(messageSize).decode("utf-8")
             if message == "LOGIN_REQUEST":
                 user = receiveUsernameAndPassword(connection,address)
-                checkUserInDatabase = checkUserExist(user)
+                checkUserInDatabase = isValidClient(user[0],user[1])
                 if checkUserInDatabase:
                     sendAMessage("VALID",connection)
                 else:
@@ -155,7 +156,7 @@ def validateLogin(username,password):
     global isLoginError
     username_get = username.get()
     password_get = password.get()
-    if username_get == "admin" and password_get == "123456": ## Ở đây sẽ là check liệu pass + username có nằm trong DB không
+    if isValidServer(username_get,password_get): ## Ở đây sẽ là check liệu pass + username có nằm trong DB không
         hideLoginFrames()
         usersAction()
     else:
