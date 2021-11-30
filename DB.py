@@ -8,8 +8,18 @@ def existClient(usernameResult):
 	# Create a cursor
 	c = conn.cursor()
 
+	# Check if the table exists. If it doesn't create one
+	c.execute('''SELECT count(name) FROM sqlite_master WHERE type = 'table' AND name = 'accountTable' ''')
+	if c.fetchone()[0]== 0: {
+		c.execute("""CREATE TABLE accountTable(
+		username text,
+		password text,
+		clientCheck boolean
+		)""")
+	}
+
 	# Create checkResult for clients' accounts
-	checkResult = TRUE
+	checkResult = True
 
 	# Fetch all elements from the database and put them in a list
 	c.execute("SELECT * FROM accountTable")
@@ -17,16 +27,16 @@ def existClient(usernameResult):
 	
 	# If the list is empty, return as false
 	if not items:
-		con.close()
-		return FALSE
+		conn.close()
+		return False
 	# If the list is not empty, check for duplicated usernames and account type (SERVER & CLIENT)
 	else:
 		for item in items:
 			if item[0] == usernameResult and item[2] == checkResult:
 				conn.close()
-				return TRUE
+				return True
 	conn.close()
-	return FALSE
+	return False
 
 # Function to check signup duplicates (SERVER accounts)
 def existServer(usernameResult):
@@ -36,8 +46,18 @@ def existServer(usernameResult):
 	# Create a cursor
 	c = conn.cursor()
 
+	# Check if the table exists. If it doesn't create one
+	c.execute('''SELECT count(name) FROM sqlite_master WHERE type = 'table' AND name = 'accountTable' ''')
+	if c.fetchone()[0]== 0: {
+		c.execute("""CREATE TABLE accountTable(
+		username text,
+		password text,
+		clientCheck boolean
+		)""")
+	}
+
 	# Create checkResult for servers' accounts
-	checkResult = FALSE
+	checkResult = False
 
 	# Fetch all elements from the database and put them in a list
 	c.execute("SELECT * FROM accountTable")
@@ -46,16 +66,16 @@ def existServer(usernameResult):
 	# If the list is empty, return as false
 	if not items:
 		conn.close()
-		return FALSE
+		return False
 	# If the list is not empty, check for duplicated usernames and account type (SERVER & CLIENT)
 	else:
 		for item in items:
 			if item[0] == usernameResult and item[2] == checkResult:
 				conn.close()
-				return TRUE
+				return True
 
 	conn.close()
-	return FALSE
+	return False
 
 # Function to check login validity (CLIENT accounts)
 def isValidClient(usernameResult, passwordResult):
@@ -65,8 +85,18 @@ def isValidClient(usernameResult, passwordResult):
 	# Create a cursor
 	c = conn.cursor()
 
+	# Check if the table exists. If it doesn't create one
+	c.execute('''SELECT count(name) FROM sqlite_master WHERE type = 'table' AND name = 'accountTable' ''')
+	if c.fetchone()[0]== 0: {
+		c.execute("""CREATE TABLE accountTable(
+		username text,
+		password text,
+		clientCheck boolean
+		)""")
+	}
+
 	# Create checkResult for clients' accounts
-	checkResult = TRUE
+	checkResult = True
 
 	# Fetch all elements from the database and put them in a list
 	c.execute("SELECT * FROM accountTable")
@@ -75,15 +105,15 @@ def isValidClient(usernameResult, passwordResult):
 	# If the list is empty, return as false
 	if not items:
 		conn.close()
-		return FALSE
+		return False
 	# If the list is not empty, check for validity (username, password, and account type)
 	else:
 		for item in items:
 			if item[0] == usernameResult and item[1] == passwordResult and item[2] == checkResult:
 				conn.close()
-				return TRUE
+				return True
 	conn.close()
-	return FALSE
+	return False
 
 # Function to check login validity (SERVER accounts)
 def isValidServer(usernameResult, passwordResult):
@@ -93,8 +123,18 @@ def isValidServer(usernameResult, passwordResult):
 	# Create a cursor
 	c = conn.cursor()
 
+	# Check if the table exists. If it doesn't create one
+	c.execute('''SELECT count(name) FROM sqlite_master WHERE type = 'table' AND name = 'accountTable' ''')
+	if c.fetchone()[0]== 0: {
+		c.execute("""CREATE TABLE accountTable(
+		username text,
+		password text,
+		clientCheck boolean
+		)""")
+	}
+
 	# Create checkResult for servers' accounts
-	checkResult = FALSE
+	checkResult = False
 
 	# Fetch all elements from the database and put them in a list
 	c.execute("SELECT * FROM accountTable")
@@ -103,13 +143,13 @@ def isValidServer(usernameResult, passwordResult):
 	# If the list is empty, return as false
 	if not items:
 		conn.close()
-		return FALSE
+		return False
 	# If the list is empty, check for validity (username, password, and account type)
 	else:
 		for item in items:
 			if item[0] == usernameResult and item[1] == passwordResult and item[2] == checkResult:
 				conn.close()
-				return TRUE
+				return True
 	conn.close()
-	return FALSE
+	return False
 
