@@ -3,7 +3,9 @@ import threading
 from tkinter import *
 from functools import partial
 import sys
+import requests
 from GetApi import getAPI
+
 
 ## Prepare the data
 sizeOfLong = 64
@@ -37,6 +39,14 @@ def deleteIndexConnections(connection,address):
             break
 
 
+def sendAMessage(message,connection): ## Ở đây ta phải dùng connection thay vì server vì dùng chính thread connection đó để send luôn tương tự bên client, ta có client == connection ở trường hợp này
+    message = message.encode('utf-8')
+    messageSize = len(message)
+    messageSize_send = str(messageSize).encode('utf8')
+    messageSize_send += b' ' * (1024 - len(messageSize_send))
+    connection.send(messageSize_send)
+    connection.send(message)
+
 def receiveUsernameAndPassword(connection,address):
     usernameSize = connection.recv(1024).decode("utf-8")
     username = ""
@@ -52,6 +62,12 @@ def receiveUsernameAndPassword(connection,address):
     return user
 
 
+def checkUserExist(user):
+    if user[0] == "ABC" and user[1] == "XYZ":
+        return True
+    else:
+        return False
+
 def handleInvidualThread(connection, address): ## Hàm để xử lý từng luồng khác nhau của các client, nói chung việc gửi nhận dữ liệu sẽ thực hiện ở đây
     indexConnection = getIndexConnections(connection,address) + 1
     while True:
@@ -65,7 +81,14 @@ def handleInvidualThread(connection, address): ## Hàm để xử lý từng lu�
             message = connection.recv(messageSize).decode("utf-8")
             if message == "LOGIN_REQUEST":
                 user = receiveUsernameAndPassword(connection,address)
-                print(user)
+                checkUserInDatabase = checkUserExist(user)
+                if checkUserInDatabase:
+                    sendAMessage("VALID",connection)
+                else:
+                    sendAMessage("INVALID",connection)
+            elif message == "DATA_REQUEST":
+                data_receive = getAPI()
+                sendAMessage(data_receive,connection)
 
 
 
@@ -118,9 +141,9 @@ def hideLoginFrames(): ##Xóa các widgets Tkinter của phần login
         loginError.pack_forget()
 
 def usersAction():
-    Active_users_text = Label(tk,text = "Active Users")
+    Active_users_text = Label(tk, text='ACTIVE USER', bg='#FFEFDB', font=('helvetica', 30, 'normal'))
     global log_records
-    log_records = Label(tk,text =logRecords_string, padx = 200, pady = 80) ## Đây là object để hiện lên các dòng lịch sử đăng nhập các kiểu của các clients
+    log_records = Label(tk,text =logRecords_string, bg='#FFEFDB', pady = 20) ## Đây là object để hiện lên các dòng lịch sử đăng nhập các kiểu của các clients
     exitButton = Button(tk,text = "exit", padx = 100, pady = 50, command = ExitServer)
     Active_users_text.pack()
     log_records.pack()
@@ -146,36 +169,36 @@ def validateLogin(username,password):
 
 ## MAIN starts here ##
 tk = Tk()
-tk.geometry("400x500")
-Server_text = Label(tk,text = "Đăng nhập vào server")
+tk.geometry("705x480")
+tk.configure(background='#FFEFDB')
+Server_text = Label(tk, text='ĐĂNG NHẬP VÀO SERVER', bg='#FFEFDB', font=('helvetica', 30, 'normal'))
 ##exitButton = Button(tk,text = "exit", padx = 100, pady = 50, command = setExitTrue)
 ##initButton = Button(tk,text = "init", padx = 100, pady = 50, command = initCommand)
 ##testButton = Button(tk,text = "forget",padx = 100, pady = 50, command = hideAllFrames)
-Server_text.pack()
+Server_text.pack(pady = 50)
 ##exitButton.pack()
 ##initButton.pack()
 ##testButton.pack()
 
 ##userName label
-usernameLabel = Label(tk,text ="Username: ")
+usernameLabel = Label(tk,text ="Username: ", bg = "#FFEFDB")
 username = StringVar()
 usernameEntry = Entry(tk, textvariable = username)
 
  ##passWord Label
-passwordLabel = Label(tk,text="Password")
+passwordLabel = Label(tk,text="Password", bg = "#FFEFDB")
 password = StringVar()
 passwordEntry = Entry(tk, textvariable=password, show='*')
-
 ##login button
 ## Trả về một object đã được nén lại từ một function với các parameters tương ứng
 validateLogin = partial(validateLogin,username,password)
-loginButton = Button(tk,text="Login", padx = 50, pady = 50, command =validateLogin)
+loginButton = Button(tk,text="Login", padx = 20, pady = 20, command =validateLogin)
 loginError = Label(tk,text = "Đăng nhập thất bại, xin mời đăng nhập lại")
 ##Packlogin form
 usernameLabel.pack()
 usernameEntry.pack()
 passwordLabel.pack()
 passwordEntry.pack()
-loginButton.pack()
+loginButton.pack(pady = 20)
 
 tk.mainloop()
