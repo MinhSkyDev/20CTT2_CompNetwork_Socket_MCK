@@ -1,4 +1,4 @@
-import subprocess
+﻿import subprocess
 import socket
 import threading
 import sqlite3
