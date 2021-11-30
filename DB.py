@@ -25,9 +25,8 @@ def existClient(usernameResult):
 			if item[0] == usernameResult and item[2] == checkResult:
 				conn.close()
 				return TRUE
-			else:
-				conn.close()
-				return FALSE
+	conn.close()
+	return FALSE
 
 # Function to check signup duplicates (SERVER accounts)
 def existServer(usernameResult):
@@ -54,9 +53,9 @@ def existServer(usernameResult):
 			if item[0] == usernameResult and item[2] == checkResult:
 				conn.close()
 				return TRUE
-			else:
-				conn.close()
-				return FALSE
+
+	conn.close()
+	return FALSE
 
 # Function to check login validity (CLIENT accounts)
 def isValidClient(usernameResult, passwordResult):
@@ -83,9 +82,8 @@ def isValidClient(usernameResult, passwordResult):
 			if item[0] == usernameResult and item[1] == passwordResult and item[2] == checkResult:
 				conn.close()
 				return TRUE
-			else:
-				conn.close()
-				return FALSE
+	conn.close()
+	return FALSE
 
 # Function to check login validity (SERVER accounts)
 def isValidServer(usernameResult, passwordResult):
@@ -112,7 +110,6 @@ def isValidServer(usernameResult, passwordResult):
 			if item[0] == usernameResult and item[1] == passwordResult and item[2] == checkResult:
 				conn.close()
 				return TRUE
-			else:
-				conn.close()
-				return FALSE
+	conn.close()
+	return FALSE
 
