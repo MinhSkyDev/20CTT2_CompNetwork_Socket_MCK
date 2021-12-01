@@ -18,11 +18,6 @@ def sendAMessage(message):
 
 sizeOfLong = 64
 portGate = 5051 ## Port không được nằm trong khoảng 0<= PORT <= 1024 vì đây là cổng cho các giao thức có sẵn trên máy
-##addr = (localIP,portGate)
-##print(addr)
-## ở đây socket.gethostname() sẽ trả về têm của PC, còn socket.gethostbyname() sẽ trả về local IP của tên máy
-# cân nhắc sử dụng cách này thay vì sử dụng một hằng số
-
 
 
 global isInputIP_Failed ## Biến này để check rằng đã bao giờ nhập IP sai chưa ?
@@ -158,13 +153,11 @@ def connectSocket(localIP,portGate):
 
 def verifyIP(inputIP):
     global isInputIP_Failed
-    localIP = socket.gethostbyname(socket.gethostname()) ## Chưa biết được rằng trả về có phải là một string không
-    print(localIP,inputIP)
-    if localIP == inputIP.get():
+    try:
+        connectSocket(inputIP.get(),5051) ## Chỗ này nếu không kết nối được sẽ quăng xuống except
         hideInputIP_Frames()
-        connectSocket(localIP,5051)
         loginForm()
-    else:
+    except:
         if isInputIP_Failed == False:
             isInputIP_Failed = True
             inputIP_failed = Label(tk,text = "IP không hợp lệ")
@@ -175,7 +168,6 @@ def verifyIP(inputIP):
 
 ## MAIN starts here
 check = localIP = socket.gethostbyname(socket.gethostname())
-print(check)
 tk = Tk()
 tk.geometry("705x480")
 Client_text_label = Label(tk,text = "Nhập IP của server: ")
