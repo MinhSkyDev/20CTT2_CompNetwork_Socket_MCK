@@ -45,17 +45,24 @@ def registrationWindow():
 	return
 
 
+img_bg = PhotoImage(file="assest/bg.png")
+img_bg_label = Label(root, image = img_bg)
+img_bg_label.place(x= 0, y= 0)
 # Creating label widgets
-label = Label(root, text = "ĐỒ ÁN MMT - 20CTT2", padx = 50, pady = 50, font=("Verdana", 25))
+##label = Label(root, text = "ĐỒ ÁN MMT - 20CTT2", padx = 50, pady = 50, font=("Verdana", 25))
 
 # Creating button widgets
-serverButton = Button(root, text = "ĐĂNG NHẬP SERVER", padx = 50, pady = 50, command = serverCommand, font=("Verdana", 15))
-clientButton = Button(root, text = "ĐĂNG NHẬP CLIENT", padx = 50, pady = 50, command = clientCommand, font=("Verdana", 15))
-registerButton = Button(root, text = "ĐĂNG KÝ", padx = 200, pady = 50, command = registrationWindow, font=("Verdana", 15))
+serverButton = Button(root, text = "SERVER", padx = 20, pady = 20, command = serverCommand, font=("Verdana", 15))
+clientButton = Button(root, text = "CLIENT", padx = 20, pady = 20, command = clientCommand, font=("Verdana", 15))
+registerButton = Button(root, text = "ĐĂNG KÝ", padx = 20, pady = 20, command = registrationWindow, font=("Verdana", 15))
 
 # Placing GUI comps on the root window
-label.place(relx = 0.5, rely = 0.1, anchor = "center")
-serverButton.place(relx = 0.25, rely = 0.4, anchor = "center")
-clientButton.place(relx = 0.75, rely = 0.4, anchor = "center")
-registerButton.place(relx = 0.5, rely = 0.8, anchor = "center")
+##label.place(relx = 0.5, rely = 0.1, anchor = "center")
+serverButton.place(x=474.0,y=122.0,width=272.0,height=77.0)
+
+clientButton.place(x=474.0,y=235.0,width=272.0,height=77.0)
+
+registerButton.place(x=474.0,y=348.0,width=272.0,height=77.0)
+
+
 root.mainloop()
