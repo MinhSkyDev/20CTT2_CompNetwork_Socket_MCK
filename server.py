@@ -6,12 +6,15 @@ import sys
 import requests
 from GetApi import getAPI
 from DB import isValidServer,isValidClient
+import time
 
 
 ## Prepare the data
 sizeOfLong = 64
 portGate = 5051 ## Port không được nằm trong khoảng 0<= PORT <= 1024 vì đây là cổng cho các giao thức có sẵn trên máy
 localIP = socket.gethostbyname(socket.gethostname())
+data_receive = ""
+checkUpdateAPI = False ##Sẽ truyển về true khi dừng chương trình
 ## ở đây socket.gethostname() sẽ trả về têm của PC, còn socket.gethostbyname() sẽ trả về local IP của tên máy
 # cân nhắc sử dụng cách này thay vì sử dụng một hằng số
 
@@ -63,11 +66,7 @@ def receiveUsernameAndPassword(connection,address):
     return user
 
 
-def checkUserExist(user):
-    if user[0] == "ABC" and user[1] == "XYZ":
-        return True
-    else:
-        return False
+
 
 def handleInvidualThread(connection, address): ## Hàm để xử lý từng luồng khác nhau của các client, nói chung việc gửi nhận dữ liệu sẽ thực hiện ở đây
     indexConnection = getIndexConnections(connection,address) + 1
@@ -88,12 +87,8 @@ def handleInvidualThread(connection, address): ## Hàm để xử lý từng lu�
                 else:
                     sendAMessage("INVALID",connection)
             elif message == "DATA_REQUEST":
-                data_receive = getAPI()
+                global data_receive
                 sendAMessage(data_receive,connection)
-
-
-
-
 
     deleteIndexConnections(connection,address) ## Làm xong thì xóa phần tử trong mảng này đi
     connection.close()
@@ -105,7 +100,8 @@ def handleInvidualThread(connection, address): ## Hàm để xử lý từng lu�
 def ExitServer():
     server.close()
     tk.destroy()
-    setExit = True
+    sys.exit()
+
 
 def init():
     Server_text.configure(text = "Server đang chạy !")
@@ -118,6 +114,7 @@ def init():
             ## Ta có được connection kiểu trả về sẽ là một object kiểu Socket, vì thế khi truyền lên hàm handleInvidualThread
             ## thì sẽ là một biến mang kiểu đối tượng Socket
             thread = threading.Thread(target=handleInvidualThread, args=(connection,address)) ## Chia từng connection thành từng luồng khác nhau
+            thread.daemon = True
             thread.start()
             global logRecords_string ## chỗ này phải gọi biến global này ra để có thể cập nhật được log
             logRecords_string += "\n Máy " + str(getIndexConnections(connection,address) +1) +" đã kết nối"
@@ -125,10 +122,19 @@ def init():
     except:
             return
 
+def updateAPI(): ##Update dữ liệu sao 30p = 60*30 giây
+    global data_receive
+    while True:
+        data_receive = getAPI()
+        time.sleep(60*30)
 
 def initThreading():
     startServer = threading.Thread(target=init)
+    updateAPI_threading = threading.Thread(target=updateAPI)
+    startServer.daemon = True
+    updateAPI_threading.daemon = True
     startServer.start()
+    updateAPI_threading.start()
 
 def hideLoginFrames(): ##Xóa các widgets Tkinter của phần login
     global isLoginError
