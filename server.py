@@ -89,10 +89,11 @@ def handleInvidualThread(connection, address): ## Hàm để xử lý từng lu�
             elif message == "DATA_REQUEST":
                 global data_receive
                 sendAMessage(data_receive,connection)
+            elif message == "EXIT":
+                deleteIndexConnections(connection,address) ## Làm xong thì xóa phần tử trong mảng này đi
+                connection.close()
+                print("Bye bye !")
 
-    deleteIndexConnections(connection,address) ## Làm xong thì xóa phần tử trong mảng này đi
-    connection.close()
-    print("Bye bye !")
 
 
 
@@ -179,13 +180,8 @@ tk = Tk()
 tk.geometry("705x480")
 tk.configure(background='#FFEFDB')
 Server_text = Label(tk, text='ĐĂNG NHẬP VÀO SERVER', bg='#FFEFDB', font=('helvetica', 30, 'normal'))
-##exitButton = Button(tk,text = "exit", padx = 100, pady = 50, command = setExitTrue)
-##initButton = Button(tk,text = "init", padx = 100, pady = 50, command = initCommand)
-##testButton = Button(tk,text = "forget",padx = 100, pady = 50, command = hideAllFrames)
 Server_text.pack(pady = 50)
-##exitButton.pack()
-##initButton.pack()
-##testButton.pack()
+
 
 ##userName label
 usernameLabel = Label(tk,text ="Username: ", bg = "#FFEFDB")

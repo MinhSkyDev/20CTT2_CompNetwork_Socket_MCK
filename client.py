@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import ttk
 from functools import partial
 import json
+import sys
 
 def sendAMessage(message):
     global client
@@ -59,11 +60,20 @@ def getData():
 
     myTree.pack(pady = 20)
 
+def Exit():
+    sendAMessage("EXIT")
+    global client
+    client.close()
+    tk.destroy()
+    sys.exit()
+
 def userGUI():
     userGUI_welcome_label = Label(tk,text = "CHÀO MỪNG")
     getData_button = Button(tk,text = "Lấy dữ liệu", command = getData)
+    exit_button = Button(tk,text = "Thoát", command = Exit)
     userGUI_welcome_label.pack()
     getData_button.pack()
+    exit_button.pack()
 
 
 def hideLoginFrames():
@@ -100,7 +110,7 @@ def verifyLogin(username,password):
         hideLoginFrames()
         userGUI()
     elif message == "INVALID":
-        if not isLoginError:
+        if  isLoginError == False:
             isLoginError = True
             loginError_label = Label(tk,text = "Tài khoản không tồn tại, xin đăng nhập lại")
             loginError_label.pack()
@@ -110,6 +120,7 @@ def verifyLogin(username,password):
 
 def hideInputIP_Frames():
     global isInputIP_Failed
+    global inputIP_failed
     Client_text_label.pack_forget()
     inputIP_entry.pack_forget()
     inputIP_button.pack_forget()
@@ -153,6 +164,7 @@ def connectSocket(localIP,portGate):
 
 def verifyIP(inputIP):
     global isInputIP_Failed
+    global inputIP_failed
     try:
         connectSocket(inputIP.get(),5051) ## Chỗ này nếu không kết nối được sẽ quăng xuống except
         hideInputIP_Frames()
