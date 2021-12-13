@@ -157,6 +157,7 @@ def loginForm():
 def connectSocket(localIP,portGate):
     global client
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client.settimeout(1)
     addr = (localIP,portGate)
     client.connect(addr)
     print("Connected")
