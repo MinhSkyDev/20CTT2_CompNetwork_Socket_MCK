@@ -92,7 +92,7 @@ def handleInvidualThread(connection, address): ## Hàm để xử lý từng lu�
             elif message == "EXIT":
                 deleteIndexConnections(connection,address) ## Làm xong thì xóa phần tử trong mảng này đi
                 connection.close()
-                print("Bye bye !")
+                break
 
 
 
@@ -134,6 +134,7 @@ def initThreading():
     updateAPI_threading = threading.Thread(target=updateAPI)
     startServer.daemon = True
     updateAPI_threading.daemon = True
+    ## Chia luồng để tránh bị freeze
     startServer.start()
     updateAPI_threading.start()
 

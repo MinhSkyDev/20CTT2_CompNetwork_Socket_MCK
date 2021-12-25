@@ -61,7 +61,10 @@ def getData():
     myTree.pack(pady = 20)
 
 def Exit():
-    sendAMessage("EXIT")
+    try:
+        sendAMessage("EXIT")
+    except:
+        pass ## Nếu như không thể sendMessage thì bỏ qua luôn ( tức là trường hợp server đã tắt)
     global client
     client.close()
     tk.destroy()
