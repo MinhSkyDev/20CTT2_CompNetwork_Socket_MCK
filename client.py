@@ -33,6 +33,62 @@ def receiveMessage(connection):
     return message
 
 
+currency = [] ##option chosing Array
+currency_sell = []
+currency_buy = []
+isExchange = False
+
+
+def appearComboBox():
+    ##create combo boxư
+    global comboBox
+    comboBox = ttk.Combobox(tk,value = currency)
+    comboBox.current(0)
+    comboBox.pack()
+
+def getTheEquivalentSell(currency_string):
+    for i in range(0,len(currency)):
+        if currency[i] == currency_string:
+            return currency_sell[i]/1000
+
+def getTheEquivalentBuy(currency_string):
+    for i in range(0,len(currency)):
+        if currency[i] == currency_string:
+            return currency_buy[i]/1000
+
+global messageLabel1,messageLabel2
+global messageLabel1_stringVar,messageLabel2_stringVar
+
+def exchange():
+    global comboBox
+    global isExchange
+    global messageLabel1,messageLabel2
+    global messageLabel1_stringVar,messageLabel2_stringVar
+    currency_type = comboBox.get()
+    sell = getTheEquivalentSell(currency_type)
+    buy = getTheEquivalentBuy(currency_type)
+    originalMoney = int(currencyEnter.get())
+    exchangeMoney_sell = sell*originalMoney
+    exchangeMoney_buy = buy*originalMoney
+    message_1 = "Số tiền quy đổi sang "+currency_type+ " nếu mua: "+ str(exchangeMoney_buy) +" nghìn đồng"
+    message_2 = "Số tiền quy đổi sang "+currency_type+ " nếu bán: "+ str(exchangeMoney_sell)+" nghìn đồng"
+
+
+    if isExchange == False:
+        messageLabel2_stringVar = StringVar()
+        messageLabel1_stringVar = StringVar()
+        messageLabel1_stringVar.set(message_1)
+        messageLabel2_stringVar.set(message_2)
+        messageLabel1 = Label(tk,textvariable = messageLabel1_stringVar)
+        messageLabel2 = Label(tk,textvariable = messageLabel2_stringVar)
+        messageLabel1.pack()
+        messageLabel2.pack()
+        isExchange = True
+    else:
+        messageLabel1_stringVar.set(message_1)
+        messageLabel2_stringVar.set(message_2)
+
+
 def getData():
     sendAMessage("DATA_REQUEST")
     data = receiveMessage(client) ## Lấy dữ liệu ở dạng chuỗi
@@ -56,9 +112,23 @@ def getData():
     myTree.heading("Sell", text = "Sell", anchor = CENTER)
     for i in result:
         myTree.insert(parent = '', index = 'end', iid=None, text = str(countResult), values = (i['buy_cash'],i['buy_transfer'],i['currency'],i['sell']))
+        currency.append(i['currency'])
+        currency_buy.append(i['buy_cash'])
+        currency_sell.append(i['sell'])
         countResult += 1
 
+
     myTree.pack(pady = 20)
+    chooseCurrency_label = Label(tk,text ="Chọn loại tiền tệ muốn quy đổi")
+    chooseCurrency_label.pack()
+    appearComboBox()
+    chooseQuantity_label = Label(tk,text ="Nhập số lượng bạn muốn quy đổi ( theo đơn vị nghìn VNĐ)")
+    chooseQuantity_entry = Entry(tk,textvariable = currencyEnter)
+    chooseQuantity_label.pack()
+    chooseQuantity_entry.pack()
+    exchangeCurrency_button = Button(tk,text = "QUY ĐỔI",command = exchange)
+    exchangeCurrency_button.pack()
+
 
 def Exit():
     try:
@@ -185,7 +255,7 @@ def verifyIP(inputIP):
 ## MAIN starts here
 check = localIP = socket.gethostbyname(socket.gethostname())
 tk = Tk()
-tk.geometry("705x480")
+tk.geometry("705x600")
 Client_text_label = Label(tk,text = "Nhập IP của server: ")
 inputIP = StringVar()
 inputIP_entry = Entry(tk, textvariable = inputIP)
@@ -194,5 +264,7 @@ inputIP_button = Button(tk,text = "Xác nhận",command = verifyIP)
 Client_text_label.pack()
 inputIP_entry.pack()
 inputIP_button.pack()
+
+currencyEnter = StringVar()
 
 tk.mainloop()
