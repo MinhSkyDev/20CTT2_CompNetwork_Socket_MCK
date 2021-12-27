@@ -17,8 +17,6 @@ def serverStart():
 	cmd = 'python server.py'
 	p = subprocess.Popen(cmd, shell = True)
 	out, err = p.communicate()
-	print(err)
-	print(out)
 	return
 
 def serverCommand():
@@ -30,8 +28,6 @@ def clientStart():
 	cmd = 'python client.py'
 	p = subprocess.Popen(cmd, shell = True)
 	out, err = p.communicate()
-	print(err)
-	print(out)
 	return
 
 def clientCommand():
