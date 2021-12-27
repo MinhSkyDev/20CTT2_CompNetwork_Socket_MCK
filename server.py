@@ -105,7 +105,6 @@ def ExitServer():
 
 
 def init():
-    Server_text.configure(text = "Server đang chạy !")
     server.listen()
     global setExit
     try:
@@ -140,23 +139,22 @@ def initThreading():
 
 def hideLoginFrames(): ##Xóa các widgets Tkinter của phần login
     global isLoginError
-    usernameLabel.pack_forget()
-    usernameEntry.pack_forget()
-    passwordLabel.pack_forget()
-    passwordEntry.pack_forget()
-    loginButton.pack_forget()
-    Server_text.pack_forget()
+    usernameEntry.place_forget()
+    passwordEntry.place_forget()
+    loginButton.place_forget()
+    userActive_image = PhotoImage(file = "assest/Server/active_users.png")
+    Server_text.config(image = userActive_image)
+    Server_text.photo_ref = userActive_image
     if isLoginError == True:
-        loginError.pack_forget()
+        loginError.place_forget()
 
 def usersAction():
-    Active_users_text = Label(tk, text='ACTIVE USER', bg='#FFEFDB', font=('helvetica', 30, 'normal'))
     global log_records
-    log_records = Label(tk,text =logRecords_string, bg='#FFEFDB', pady = 20) ## Đây là object để hiện lên các dòng lịch sử đăng nhập các kiểu của các clients
-    exitButton = Button(tk,text = "exit", padx = 100, pady = 50, command = ExitServer)
-    Active_users_text.pack()
-    log_records.pack()
-    exitButton.pack()
+    log_records = Label(tk,text =logRecords_string, bg='#FFFFFF', pady = 20) ## Đây là object để hiện lên các dòng lịch sử đăng nhập các kiểu của các clients
+    exitButton = Button(tk,text = "exit", highlightthickness=0 ,
+                    padx = 30, pady = 20, command = ExitServer)
+    log_records.place(x= 300 , y= 150)
+    exitButton.place(x= 315, y = 390)
     initThreading()
 
 
@@ -171,7 +169,7 @@ def validateLogin(username,password):
         if isLoginError:
             pass ## Do nothing
         else:
-            loginError.pack()
+            loginError.place(x=245.0,y=390.0)
             isLoginError = True
 
 
@@ -179,30 +177,33 @@ def validateLogin(username,password):
 ## MAIN starts here ##
 tk = Tk()
 tk.geometry("705x480")
-tk.configure(background='#FFEFDB')
-Server_text = Label(tk, text='ĐĂNG NHẬP VÀO SERVER', bg='#FFEFDB', font=('helvetica', 30, 'normal'))
-Server_text.pack(pady = 50)
+tk.configure(background='#FFFFFF')
+tk.title("Server")
+tk.resizable(False,False)
 
 
-##userName label
-usernameLabel = Label(tk,text ="Username: ", bg = "#FFEFDB")
+loginBackground_image = PhotoImage( file="assest/Server/image_1.png" )
+
+Server_text = Label(tk, image = loginBackground_image)
+Server_text.place(x=0,y=0)
+
+
+##userName entry
 username = StringVar()
 usernameEntry = Entry(tk, textvariable = username)
 
  ##passWord Label
-passwordLabel = Label(tk,text="Password", bg = "#FFEFDB")
 password = StringVar()
-passwordEntry = Entry(tk, textvariable=password, show='*')
+passwordEntry = Entry(tk, textvariable=password,  show='*')
 ##login button
 ## Trả về một object đã được nén lại từ một function với các parameters tương ứng
 validateLogin = partial(validateLogin,username,password)
-loginButton = Button(tk,text="Login", padx = 20, pady = 20, command =validateLogin)
+loginButton_image = PhotoImage(file = "assest/Server/button_1.png")
+loginButton = Button(tk,borderwidth=0,highlightthickness=0,image = loginButton_image, command =validateLogin)
 loginError = Label(tk,text = "Đăng nhập thất bại, xin mời đăng nhập lại")
 ##Packlogin form
-usernameLabel.pack()
-usernameEntry.pack()
-passwordLabel.pack()
-passwordEntry.pack()
-loginButton.pack(pady = 20)
+passwordEntry.place(x=301.0,y=275.0,width=286.0,height=32.0)
+usernameEntry.place(x=301.0,y=221.0,width=286.0,height=32.0)
+loginButton.place(x=245.0,y=341.0,width=212.0,height=36.0)
 
 tk.mainloop()
