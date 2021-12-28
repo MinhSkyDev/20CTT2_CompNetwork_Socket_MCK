@@ -79,10 +79,10 @@ def exchange():
         messageLabel1_stringVar = StringVar()
         messageLabel1_stringVar.set(message_1)
         messageLabel2_stringVar.set(message_2)
-        messageLabel1 = Label(tk,textvariable = messageLabel1_stringVar)
-        messageLabel2 = Label(tk,textvariable = messageLabel2_stringVar)
-        messageLabel1.place(x= 275.0, y = 540.0)
-        messageLabel2.place(x= 275.0, y = 565.0)
+        messageLabel1 = Label(tk,bg = "#FFFFFF",textvariable = messageLabel1_stringVar)
+        messageLabel2 = Label(tk,bg = "#FFFFFF",textvariable = messageLabel2_stringVar)
+        messageLabel1.place(x= 175.0, y = 540.0)
+        messageLabel2.place(x= 175.0, y = 565.0)
         isExchange = True
     else:
         messageLabel1_stringVar.set(message_1)
