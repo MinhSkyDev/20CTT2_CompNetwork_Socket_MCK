@@ -194,7 +194,7 @@ usernameEntry = Entry(tk, textvariable = username)
 
  ##passWord Label
 password = StringVar()
-passwordEntry = Entry(tk, textvariable=password,  show='*')
+passwordEntry = Entry(tk, textvariable = password,  show = '*')
 ##login button
 ## Trả về một object đã được nén lại từ một function với các parameters tương ứng
 validateLogin = partial(validateLogin,username,password)

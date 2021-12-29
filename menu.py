@@ -3,25 +3,48 @@ import socket
 import threading
 import sqlite3
 import DB
+import traceback
+import sys
 from registration import registrationHandle
 from tkinter import *
-
+from tkinter import messagebox
+import os
 
 root = Tk()
 root.title('Cửa số chính')
 root.geometry("800x450")
 root.resizable(FALSE, FALSE)
 
+# Declare global 
+global existServerReq
+existServerReq = False
+
+
 # Initialize the server
 def serverStart():
-	cmd = 'python server.py'
-	p = subprocess.Popen(cmd, shell = True)
-	out, err = p.communicate()
+	global existServerReq
+	# If a server request has not existed yet, proceed
+	if existServerReq == False:
+
+		# Change the server request status to True
+		existServerReq = True
+		cmd = 'python server.py'
+		p = subprocess.Popen(cmd, shell = True)
+		out, err = p.communicate()
+
+		# Change the server request status to False as the there's no more execution
+		existServerReq = False
+	else:
+		messagebox.showerror('Lỗi', 'Không thể mở nhiều server qua 1 host.')
 	return
+
+		
+
 
 def serverCommand():
 	server = threading.Thread(target = serverStart)
 	server.start()
+	return
 
 # Initialize the client
 def clientStart():
@@ -39,6 +62,7 @@ def clientCommand():
 def registrationWindow():
 	registrationHandle()
 	return
+
 
 
 img_bg = PhotoImage(file="assest/bg.png")
@@ -60,5 +84,5 @@ clientButton.place(x=474.0,y=235.0,width=272.0,height=77.0)
 
 registerButton.place(x=474.0,y=348.0,width=272.0,height=77.0)
 
-
 root.mainloop()
+	
