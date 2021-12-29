@@ -2,6 +2,7 @@ import socket
 import threading
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 from functools import partial
 import json
 import sys
@@ -138,18 +139,20 @@ def updateTree(myTree,result):
 
 
 def getData():
-    sendAMessage("DATA_REQUEST")
-    data = receiveMessage(client) ## Lấy dữ liệu ở dạng chuỗi
-    data_json = json.loads(data) ## ta chuyển chuỗi sang object json
-    result = data_json['results']
-    ##Tkinter Treeview
-    global isTreeAppear,myTree
-    if isTreeAppear == False:
-        appearMyTree(result)
-    else:
-        updateTree(myTree,result)
-
-    appearExchange()
+    try:
+        global isTreeAppear,myTree
+        sendAMessage("DATA_REQUEST")
+        data = receiveMessage(client) ## Lấy dữ liệu ở dạng chuỗi
+        data_json = json.loads(data) ## ta chuyển chuỗi sang object json
+        result = data_json['results']
+        ##Tkinter Treeview
+        if isTreeAppear == False:
+            appearMyTree(result)
+        else:
+            updateTree(myTree,result)
+        appearExchange()
+    except:
+        messagebox.showerror('Lỗi','Server không còn tồn tại để có thể gửi dữ liệu !')
 
 
 
